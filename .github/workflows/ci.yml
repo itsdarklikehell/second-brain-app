@@ -1,30 +1,18 @@
 name: CI
-
 on:
   push:
     branches: [main, master]
   pull_request:
   workflow_dispatch:
-
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Lint (if configured)
-        run: npm run lint --if-present
-
-      - name: Build
-        run: npm run build
-
-      - name: Test (if configured)
-        run: npm test --if-present
+  ci:
+    uses: itsdarklikehell/ci-templates/.github/workflows/ci-node.yml@v1.0.0
+    with:
+      node-version: "20"
+      package-manager: auto
+      working-directory: .
