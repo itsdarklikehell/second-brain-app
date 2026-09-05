@@ -12,9 +12,9 @@ export default function Home() {
   const [view, setView] = useState<'all' | 'memories' | 'notes' | 'conversations'>('all');
 
   useEffect(() => {
-    fetch('/data/items.json')
+    fetch('/api/items')
       .then(res => res.json())
-      .then(data => setItems(data))
+      .then(data => setItems(Array.isArray(data) ? data : []))
       .catch(console.error);
   }, []);
 
