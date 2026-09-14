@@ -14,7 +14,7 @@ export default function AddItemForm({ onAdd }: AddItemFormProps) {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
@@ -53,7 +53,23 @@ export default function AddItemForm({ onAdd }: AddItemFormProps) {
       } as Conversation;
     }
 
-    onAdd(newItem);
+    // POST to API for persistent storage
+    try {
+      const res = await fetch('/api/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem),
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        onAdd(saved);
+      } else {
+        console.error('Failed to save item:', await res.text());
+      }
+    } catch (err) {
+      console.error('API call failed:', err);
+    }
+
     setTitle('');
     setContent('');
     setCategory('');

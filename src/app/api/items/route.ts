@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initDb, seedIfEmpty, addItem } from '@/lib/db';
+import { initDb, seedIfEmpty, getAllItems, addItem } from '@/lib/db';
 import { BrainItem } from '@/lib/types';
 
 // better-sqlite3 is a native server module — only safe in a route handler.
@@ -20,6 +20,11 @@ type NewItem = {
 
 function badRequest(msg: string) {
   return NextResponse.json({ error: msg }, { status: 400 });
+}
+
+export async function GET() {
+  const items = getAllItems();
+  return NextResponse.json(items);
 }
 
 export async function POST(req: NextRequest) {
