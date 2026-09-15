@@ -2,16 +2,19 @@
 
 import { useState } from 'react';
 import { BrainItem } from '@/lib/types';
+import { useRouter } from 'next/navigation';
 
 interface ItemListProps {
   items: BrainItem[];
+  onDelete?: (id: string) => void;
 }
 
-export default function ItemList({ items }: ItemListProps) {
+export default function ItemList({ items, onDelete }: ItemListProps) {
   const [filterType, setFilterType] = useState<string>('');
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
   const [sortBy, setSortBy] = useState<'createdAt' | 'updatedAt'>('createdAt');
+  const router = useRouter();
 
   const filteredItems = items
     .filter(item => {
