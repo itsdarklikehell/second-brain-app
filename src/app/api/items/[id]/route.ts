@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initDb, seedIfEmpty, getItemById, updateItem, deleteItem } from '@/lib/db';
-
-initDb();
-seedIfEmpty();
+import { getItemById, updateItem, deleteItem } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,14 +34,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  try {
-    const deleted = deleteItem(id);
-    if (!deleted) {
-      return NextResponse.json({ error: 'not found' }, { status: 404 });
-    }
-    return new NextResponse(null, { status: 204 });
-  } catch (err) {
-    console.error('[api/items/:id DELETE]', err);
-    return NextResponse.json({ error: 'db write failed' }, { status: 500 });
+  const deleted = deleteItem(id);
+  if (!deleted) {
+    return NextResponse.json({ error: 'not found' }, { status: 404 });
   }
+  return new NextResponse(null, { status: 204 });
 }

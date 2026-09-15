@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { BrainItem } from '@/lib/types';
-import { useRouter } from 'next/navigation';
+import DeleteButton from '@/components/DeleteButton';
 
 interface ItemListProps {
   items: BrainItem[];
@@ -14,7 +14,6 @@ export default function ItemList({ items, onDelete }: ItemListProps) {
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
   const [sortBy, setSortBy] = useState<'createdAt' | 'updatedAt'>('createdAt');
-  const router = useRouter();
 
   const filteredItems = items
     .filter(item => {
@@ -152,6 +151,7 @@ export default function ItemList({ items, onDelete }: ItemListProps) {
                   ))}
                 </div>
               )}
+              {onDelete && <DeleteButton item={item} onDelete={onDelete} />}
             </div>
           ))
         )}

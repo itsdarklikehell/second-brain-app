@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initDb, seedIfEmpty, getAllItems, addItem, getItemById, updateItem, deleteItem, searchItems } from '@/lib/db';
+import { seedIfEmpty, getAllItems, addItem, searchItems } from '@/lib/db';
 import { BrainItem } from '@/lib/types';
 
 // better-sqlite3 is a native server module — only safe in a route handler.
-initDb();
 seedIfEmpty();
 
 export const dynamic = 'force-dynamic';

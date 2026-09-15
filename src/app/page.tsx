@@ -43,6 +43,17 @@ export default function Home() {
     setItems(prev => [...prev, item]);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setItems(prev => prev.filter(item => item.id !== id));
+      }
+    } catch (err) {
+      console.error('Delete failed:', err);
+    }
+  };
+
   const filteredItems = items.filter(item => {
     if (view === 'all') return true;
     // View tabs use plural labels; map them to the singular item types.
@@ -95,7 +106,7 @@ export default function Home() {
         </p>
 
         {/* List */}
-        <ItemList items={filteredItems} />
+        <ItemList items={filteredItems} onDelete={handleDelete} />
       </main>
 
       {/* Search Dialog */}

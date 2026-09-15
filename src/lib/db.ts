@@ -25,7 +25,7 @@ function rowToItem(row: ItemRow): BrainItem {
   return item as unknown as BrainItem;
 }
 
-const db = new Database('./second-brain.db');
+const db = new Database(path.join(process.cwd(), 'data', 'second-brain.db'));
 
 export function initDb() {
   db.exec(`
