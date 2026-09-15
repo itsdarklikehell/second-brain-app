@@ -12,10 +12,31 @@ export default function Home() {
   const [view, setView] = useState<'all' | 'memories' | 'notes' | 'conversations'>('all');
 
   useEffect(() => {
-    fetch('/api/items')
-      .then(res => res.json())
-      .then(data => setItems(Array.isArray(data) ? data : []))
-      .catch(console.error);
+    let cancelled = false;
+    
+    async function loadItems() {
+      try {
+        const res = await fetch('/api/items');
+        if (!res.ok) {
+          console.error('Failed to fetch items:', res.status);
+          return;
+        }
+        const data = await res.json();
+        if (!cancelled) {
+          setItems(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error('Error loading items:', err);
+      }
+    }
+    
+    loadItems();
+    const interval = setInterval(loadItems, 5000);
+    
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const handleAddItem = (item: BrainItem) => {
