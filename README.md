@@ -3,6 +3,7 @@
 <img src="https://img.shields.io/github/stars/hmol33/second-brain-app?style=flat-square&color=blue" alt="Stars">
 <img src="https://img.shields.io/github/forks/hmol33/second-brain-app?style=flat-square&color=green" alt="Forks">
 <img src="https://img.shields.io/github/license/hmol33/second-brain-app?style=flat-square" alt="License">
+<img src="https://img.shields.io/github/actions/workflow/status/hmol33/second-brain-app/ci.yml?branch=main&label=CI&style=flat-square" alt="CI Status">
 
 Een persoonlijk "Second Brain" systeem gebouwd met **Next.js 16 (App Router)**, **React 19**, **TypeScript** en **Tailwind CSS v4**. Het laat je al je notities, gesprekken en herinneringen reviewen, doorzoeken en filteren.
 
